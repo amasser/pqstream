@@ -95,6 +95,25 @@ Example:
 	}
 ```
 
+## The Handler Interface
+The client's PreHandlers, Handlers, and PostHandlers all conform to the following interface signature:
+```go
+Process(notification *pq.Notification) error
+
+```
+
+You may create types to satisfy this interface, or you can simply pass a first-class function to satisfy the interface by 
+calling `HandlerFromHandlerFunc(handler func(notification *pq.Notification) error) Handler` with an anonymous function.
+ 
+Ideas for powerful Handlers for streaming real-time data include:
+- POST the notification as a webhook
+- Stream the notification to a websocket connection(see https://godoc.org/github.com/gorilla/websocket)
+- Publis the notification to a NATS channel
+- Publish the notification to a Kafka topic
+- Publis the notification to RabbitMQ
+- Send an email based on information in the notification
+- Send a text based on information in the notification
+
 ## GoDoc
 --
     import "github.com/autom8ter/pqstream"
